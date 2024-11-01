@@ -13,13 +13,13 @@ export default function Home() {
   if (surahs.length === 0) return <div>Loading...</div>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Surah List</h1>
-      <ul>
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-6">Surah List</h1>
+      <ul className="space-y-4">
         {surahs.map(surah => (
-          <li key={surah.number} className="mt-2">
+          <li key={surah.number} className="bg-white shadow-md rounded-lg p-4 hover:bg-gray-100 transition duration-150">
             <Link href={`/surah/${surah.number}`}>
-              <a className="text-blue-500">{surah.englishName} - {surah.englishNameTranslation}</a>
+              <a className="text-blue-500 hover:underline">{surah.englishName} - {surah.englishNameTranslation}</a>
             </Link>
           </li>
         ))}
