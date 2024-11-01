@@ -1,46 +1,29 @@
-// app/page.js
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
-const HomePage = () => {
-  const [quranData, setQuranData] = useState(null);
-  const [error, setError] = useState(null);
+export default function Home() {
+  const [surahs, setSurahs] = useState([]);
 
   useEffect(() => {
-    const getQuranData = async () => {
-      try {
-        const response = await fetch('https://api.alquran.cloud/v1/quran/ar.alafasy');
-        if (!response.ok) {
-          throw new Error('Failed to fetch Quran data');
-        }
-        const data = await response.json();
-        setQuranData(data.data); // Adjust based on the API response structure
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-    getQuranData();
+    fetch('https://api.alquran.cloud/v1/surah')
+      .then(response => response.json())
+      .then(data => setSurahs(data.data));
   }, []);
 
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (surahs.length === 0) return <div>Loading...</div>;
 
   return (
-    <div className="p-4">
-      <h1 className="text-3xl font-bold text-center mb-4">Al Quran</h1>
-      <div className="grid grid-cols-1 gap-4">
-        {quranData && quranData.surahs.map((surah, index) => (
-          <div key={index} className="bg-white p-4 rounded shadow">
-            <h2 className="text-lg font-semibold">{surah.englishName}</h2>
-            <p className="text-sm text-gray-600">{surah.englishNameTranslation}</p>
-            <ul>
-              {surah.ayahs.map((ayah, ayahIndex) => (
-                <li key={ayahIndex} className="text-lg">{ayah.text}</li>
-              ))}
-            </ul>
-          </div>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Surah List</h1>
+      <ul>
+        {surahs.map(surah => (
+          <li key={surah.number} className="mt-2">
+            <Link href={`/surah/${surah.number}`}>
+              <a className="text-blue-500">{surah.englishName} - {surah.englishNameTranslation}</a>
+            </Link>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
-};
-
-export default HomePage;
+}
