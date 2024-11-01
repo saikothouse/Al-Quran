@@ -7,15 +7,23 @@ export default function SurahDetails() {
   const router = useRouter();
   const { id } = router.query;
   const [surah, setSurah] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (id) {
       fetch(`https://api.alquran.cloud/v1/surah/${id}`)
-        .then(response => response.json())
-        .then(data => setSurah(data.data));
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => setSurah(data.data))
+        .catch(error => setError(error.toString()));
     }
   }, [id]);
 
+  if (error) return <div className="text-center mt-12 text-red-500">Error: {error}</div>;
   if (!surah) return <div className="text-center mt-12">Loading...</div>;
 
   return (
