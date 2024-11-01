@@ -12,17 +12,18 @@ export default function Home() {
       .then(data => setSurahs(data.data));
   }, []);
 
-  if (surahs.length === 0) return <div>Loading...</div>;
+  if (surahs.length === 0) return <div className="text-center mt-12">Loading...</div>;
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Surah List</h1>
-      <ul className="space-y-4">
+      <h1 className="text-4xl font-bold mb-8 text-center">Al Quran Surah List</h1>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {surahs.map(surah => (
-          <li key={surah.number} className="bg-white shadow-md rounded-lg p-4 hover:bg-gray-100 transition duration-150">
+          <li key={surah.number} className="bg-white shadow-lg rounded-lg p-6 hover:bg-blue-50 transition duration-150">
             <Link href={`/surah/${surah.number}`}>
-              <a className="text-blue-500 hover:underline">{surah.englishName} - {surah.englishNameTranslation}</a>
+              <a className="text-blue-600 hover:underline text-xl font-semibold block">{surah.englishName}</a>
             </Link>
+            <p className="text-gray-600">{surah.englishNameTranslation}</p>
           </li>
         ))}
       </ul>
