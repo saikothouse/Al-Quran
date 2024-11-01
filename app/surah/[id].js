@@ -17,12 +17,16 @@ export default function SurahDetails() {
   if (!surah) return <div>Loading...</div>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">{surah.englishName}</h1>
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-6">{surah.englishName}</h1>
       <p className="text-lg mb-4">{surah.englishNameTranslation}</p>
-      {surah.ayahs.map(ayah => (
-        <p key={ayah.number} className="mt-4">{ayah.text}</p>
-      ))}
+      <div className="space-y-4">
+        {surah.ayahs.map(ayah => (
+          <p key={ayah.number} className="bg-white shadow-md rounded-lg p-4">
+            {ayah.text}
+          </p>
+        ))}
+      </div>
     </div>
   );
 }
